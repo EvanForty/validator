@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>VALIDATOR — launch a Solana validator in one click</title>
+<meta name="theme-color" content="#020c1a">
+<meta property="og:type" content="website">
+<meta property="og:title" content="VALIDATOR — launch a Solana validator in one click">
+<meta property="og:description" content="Connect a wallet, name your validator, launch. We run the servers.">
+<meta name="twitter:card" content="summary">
+<link rel="icon" type="image/png" href="/favicon.png">
+<link rel="apple-touch-icon" href="/apple-touch-icon.png">
+<meta name="description" content="A permissionless launchpad for Solana validators. Connect a wallet, name your validator, launch. We run the servers.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Silkscreen:wght@400;700&family=Space+Grotesk:wght@400;500;600&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/styles.css">
+
+</head>
+<body>
+<header class="nav">
+  <div class="wrap">
+    <a class="brand" href="#top" aria-label="VALIDATOR home"><img src="/validator-nav.png" width="28" height="36" alt=""><span>validator</span></a>
+    <ul>
+      <li><a href="#launch">launch</a></li>
+      <li><a href="#how">how it works</a></li>
+      <li><a href="#market">marketplace</a></li>
+      <li><a href="#flywheel">flywheel</a></li>
+      <li><a href="#token">$VALIDATOR</a></li>
+    </ul>
+    <span class="spacer"></span>
+    <span class="live"><span class="dot"></span>epoch <b id="epoch">—</b></span>
+    <a class="btn ghost xlink" href="https://x.com/UseValidatorfun" target="_blank" rel="noopener noreferrer" aria-label="VALIDATOR on X (opens in a new tab)" title="Follow us on X"><span aria-hidden="true">X</span></a>
+    <div class="wallet">
+      <button class="btn" id="walletBtn" aria-haspopup="true">connect wallet</button>
+      <div class="wallet-menu" id="walletMenu" role="menu">
+        <div class="lbl" id="wmProvider">connected</div>
+        <div class="addr" id="wmAddr"></div>
+        <button class="btn ghost" id="copyAddr" style="color:#dfe8ef">copy address</button>
+        <button class="btn ghost" id="disconnect" style="color:#ff9a9a">disconnect</button>
+      </div>
+    </div>
+  </div>
+</header>
+
+<main id="top">
+<section class="hero" style="padding-top:70px">
+  <div class="wrap">
+    <div>
+      <h1>launch a solana validator. <span class="l2">one click.</span></h1>
+      <p class="sub">Connect a wallet, name your validator, press launch. We rent the servers, install the software, keep it updated and watch the uptime. You build the community that stakes to it.</p>
+      <div class="ctas">
+        <a class="btn" href="#launch">launch a validator</a>
+        <a class="btn ghost" href="#market">browse validators</a>
+      </div>
+    </div>
+    <figure class="machine" style="margin:0">
+      <div class="stage" id="stage" role="img" aria-label="Rotating 3D pixel-art server rack with a screen reading VALIDATOR: syncing, blocks, attesting, online">
+        <div class="rig" id="rig">
+          <div class="face back"></div>
+          <div class="face side l"><span class="strip"></span></div>
+          <div class="face side r"><span class="strip"></span></div>
+          <div class="face top"></div>
+          <div class="face front"><img src="/validator.png" width="300" height="398" alt=""></div>
+          <div class="scan"></div>
+        </div>
+        <div class="floor"></div>
+      </div>
+      <figcaption class="caption">node status: <span style="color:var(--phos)">online</span></figcaption>
+    </figure>
+  </div>
+  <div class="wrap">
+    <div class="ticker">
+      <div><b id="tkLaunched">0</b><span>validators launched</span></div>
+      <div><b id="tkStake">0</b><span>SOL delegated through VALIDATOR</span></div>
+      <div><b>38</b><span>server regions</span></div>
+      <div><b>~25 min</b><span>from launch to first vote</span></div>
+    </div>
+  </div>
+</section>
+
+<section id="launch">
+  <div class="wrap">
+    <div class="sec-head">
+      <h2><span class="hash">#</span>launch console</h2>
+      <p class="lede">Set it up the way you'd set up a token page. Everything you choose here becomes your public validator profile.</p>
+    </div>
+    <div class="bezel">
+      <div class="screen">
+        <div class="console">
+          <form id="launchForm" novalidate>
+            <div class="field">
+              <label for="vName">validator name</label>
+              <input id="vName" maxlength="32" placeholder="e.g. Night Shift Node" autocomplete="off" required>
+            </div>
+            <div class="row2">
+              <div class="field">
+                <label for="vComm">commission</label>
+                <select id="vComm"><option>0%</option><option>3%</option><option selected>5%</option><option>7%</option><option>10%</option></select>
+              </div>
+              <div class="field">
+                <label for="vRegion">server region (38 locations)</label>
+                <select id="vRegion"><optgroup label="Europe"><option>Frankfurt</option><option>Amsterdam</option><option>London</option><option>Dublin</option><option>Paris</option><option>Zurich</option><option>Warsaw</option><option>Stockholm</option><option>Helsinki</option><option>Madrid</option><option>Milan</option><option>Vilnius</option></optgroup><optgroup label="North America"><option>Ashburn</option><option>New York</option><option>Chicago</option><option>Dallas</option><option>Miami</option><option>Atlanta</option><option>Los Angeles</option><option>Seattle</option><option>Salt Lake City</option><option>Toronto</option><option>Montreal</option></optgroup><optgroup label="South America"><option>São Paulo</option><option>Bogotá</option><option>Santiago</option></optgroup><optgroup label="Asia Pacific"><option>Tokyo</option><option>Osaka</option><option>Singapore</option><option>Seoul</option><option>Hong Kong</option><option>Mumbai</option><option>Jakarta</option><option>Sydney</option></optgroup><optgroup label="Middle East & Africa"><option>Dubai</option><option>Tel Aviv</option><option>Johannesburg</option><option>Lagos</option></optgroup></select>
+              </div>
+            </div>
+            <div class="field">
+              <label id="clrLbl">identity colour</label>
+              <div class="swatches" role="group" aria-labelledby="clrLbl" id="swatches"></div>
+            </div>
+            <div class="preview" aria-live="polite">
+              <div class="avatar" id="pvAv">?</div>
+              <div><b id="pvName">your validator</b><span id="pvMeta">5% commission, Frankfurt</span></div>
+            </div>
+            <button class="btn" type="submit" id="launchBtn">connect wallet to launch</button>
+          </form>
+          <div class="log">
+            <div class="title"><span>deploy log</span><span id="logState" style="color:#7f93a8">idle</span></div>
+            <ol id="logList"><li class="idle">waiting for a name and a wallet<span class="cursor"></span></li></ol>
+            <div class="bar" aria-hidden="true"><i id="logBar"></i></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="how">
+  <div class="wrap">
+    <div class="sec-head">
+      <h2><span class="hash">#</span>how it works</h2>
+      <p class="lede">No command line, no hardware, no server bills to juggle.</p>
+    </div>
+    <ol class="steps">
+      <li><span class="n">01</span><h3>deploy</h3><p>Connect your wallet, name the validator, pick its look, launch from one dashboard.</p></li>
+      <li><span class="n">02</span><h3>we run it</h3><p>Servers get provisioned, the validator client gets configured and updated, uptime gets watched around the clock.</p></li>
+      <li><span class="n">03</span><h3>get staked</h3><p>Your validator gets a public page. Any SOL holder can delegate stake to it from there.</p></li>
+      <li><span class="n">04</span><h3>earn SOL</h3><p>You keep your commission on staking rewards, after operating costs and depending on performance.</p></li>
+      <li><span class="n">05</span><h3>hold $VALIDATOR</h3><p>Holders get cheaper hosting, deeper monitoring and tools to promote their validator.</p></li>
+    </ol>
+  </div>
+</section>
+
+<section id="market" style="background:var(--bg2);border-top:1px solid var(--line);border-bottom:1px solid var(--line)">
+  <div class="wrap">
+    <div class="sec-head">
+      <h2><span class="hash">#</span>validator marketplace</h2>
+      <p class="lede">Every validator is a project with a page, live performance and a delegation leaderboard. Find one you believe in and stake to it.</p>
+    </div>
+    <div class="mk-tools">
+      <label for="mkSearch" class="sr">search validators</label>
+      <input id="mkSearch" placeholder="search by name or ticker">
+      <div class="seg" role="group" aria-label="sort by">
+        <button aria-pressed="true" data-sort="stake">most staked</button>
+        <button aria-pressed="false" data-sort="apy">highest APY</button>
+        <button aria-pressed="false" data-sort="new">newest</button>
+      </div>
+    </div>
+    <div class="tbl-wrap">
+      <table>
+        <thead><tr><th>#</th><th>validator</th><th class="num">delegated</th><th class="num">est. APY</th><th class="num">commission</th><th>uptime</th><th class="num">delegators</th><th></th></tr></thead>
+        <tbody id="mkBody"></tbody>
+      </table>
+    </div>
+  </div>
+</section>
+
+<section id="flywheel">
+  <div class="wrap fly">
+    <svg viewBox="0 0 520 520" role="img" aria-label="Flywheel: more validators launched, more hosting revenue, revenue funds $VALIDATOR buybacks, more incentives and better infrastructure, back to more validators launched">
+      <defs><marker id="ah" viewBox="0 0 10 10" refX="7" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0 0 L10 5 L0 10z" fill="var(--phos)"/></marker></defs>
+      <path class="arc" d="M300 90 A180 180 0 0 1 430 220" marker-end="url(#ah)"/>
+      <path class="arc" d="M430 300 A180 180 0 0 1 300 430" marker-end="url(#ah)"/>
+      <path class="arc" d="M220 430 A180 180 0 0 1 90 300" marker-end="url(#ah)"/>
+      <path class="arc" d="M90 220 A180 180 0 0 1 220 90" marker-end="url(#ah)"/>
+      <rect class="core" x="195" y="215" width="130" height="90"/>
+      <text class="core-t" x="260" y="255" text-anchor="middle" font-size="16">$VALIDATOR</text>
+      <text class="core-t" x="260" y="279" text-anchor="middle" font-size="11">flywheel</text>
+      <g font-size="13">
+        <rect class="node-rect" x="160" y="40" width="200" height="56"/><text x="260" y="64" text-anchor="middle">more validators</text><text x="260" y="82" text-anchor="middle">launched</text>
+        <rect class="node-rect" x="360" y="232" width="150" height="56"/><text x="435" y="256" text-anchor="middle">more hosting</text><text x="435" y="274" text-anchor="middle">revenue</text>
+        <rect class="node-rect" x="160" y="424" width="200" height="56"/><text x="260" y="448" text-anchor="middle">revenue funds</text><text x="260" y="466" text-anchor="middle">buybacks</text>
+        <rect class="node-rect" x="10" y="232" width="150" height="56"/><text x="85" y="256" text-anchor="middle">better infra +</text><text x="85" y="274" text-anchor="middle">incentives</text>
+      </g>
+    </svg>
+    <div>
+      <h2><span class="hash">#</span>the flywheel</h2>
+      <p class="lede" style="margin-top:16px">Launches pay for the machines. The machines pay for the token. The token makes the next launch cheaper.</p>
+      <ol>
+        <li><span class="k">→</span><span><b>More validators launched.</b> Each one is a monthly hosting and management customer.</span></li>
+        <li><span class="k">→</span><span><b>More hosting revenue.</b> Fees scale with the number of live nodes, not with trading volume.</span></li>
+        <li><span class="k">→</span><span><b>Revenue funds $VALIDATOR buybacks.</b> A share of platform revenue buys the token on the open market.</span></li>
+        <li><span class="k">→</span><span><b>Better infrastructure and incentives.</b> Holder discounts and better hardware pull in the next wave of operators.</span></li>
+      </ol>
+    </div>
+  </div>
+</section>
+
+<section id="token" style="padding-top:20px">
+  <div class="wrap">
+    <div class="sec-head">
+      <h2><span class="hash">#</span>$VALIDATOR</h2>
+      <p class="lede">Hold the token, pay less to run your node and get more eyes on it.</p>
+    </div>
+    <div class="tiers">
+      <div class="tier"><h3>operator</h3><p class="hold mute">no token needed</p>
+        <ul><li>One-click deploy and auto-updates</li><li>Uptime and vote-credit monitoring</li><li>Public profile and staking page</li></ul></div>
+      <div class="tier feat"><h3>holder</h3><p class="hold mute">hold any $VALIDATOR</p>
+        <ul><li>Discounted monthly hosting</li><li>Premium monitoring with skip-rate and latency alerts</li><li>Priority hardware queue</li></ul></div>
+      <div class="tier"><h3>whale</h3><p class="hold mute">top holders</p>
+        <ul><li>Biggest hosting discount</li><li>Featured slot in the marketplace</li><li>Promotion tools for your stake drive</li></ul></div>
+    </div>
+  </div>
+</section>
+
+<section style="padding-top:20px">
+  <div class="wrap">
+    <div class="reality">
+      <div>
+        <h2>what one click can't do</h2>
+        <p class="lede" style="margin-top:14px">We remove the technical work. The economics of running a Solana validator stay the same.</p>
+      </div>
+      <dl>
+        <dt>hardware</dt><dd>Validators run on real, high-spec servers. Someone pays for them every month, and that someone is the operator.</dd>
+        <dt>vote fees</dt><dd>Validators pay SOL in vote transaction fees every epoch, whether or not they have stake.</dd>
+        <dt>stake</dt><dd>Without enough delegated stake, commission won't cover costs. Building a community that stakes is your job.</dd>
+        <dt>rewards</dt><dd>Earnings depend on network performance and stake, and aren't guaranteed. This isn't financial advice.</dd>
+      </dl>
+    </div>
+  </div>
+</section>
+
+<section class="final">
+  <div class="wrap">
+    <h2>run real Solana infrastructure, without the terminal.</h2>
+    <div class="ctas"><a class="btn" href="#launch">launch a validator</a><button class="btn ghost" id="finalConnect">connect wallet</button></div>
+  </div>
+</section>
+</main>
+
+<footer>
+  <div class="wrap">
+    <span>VALIDATOR · a Solana validator launchpad · not an investment</span>
+    <nav><a href="#launch">launch</a><a href="#market">marketplace</a><a href="#token">$VALIDATOR</a></nav>
+  </div>
+</footer>
+
+<div class="modal" id="connectModal" role="dialog" aria-modal="true" aria-labelledby="cmTitle">
+  <div class="bezel"><div class="screen">
+    <button class="x" id="cmClose" aria-label="close">x</button>
+    <h3 id="cmTitle">connect wallet</h3>
+    <p style="color:#7f93a8;font-size:15px">Pick a Solana wallet. We only read your public address.</p>
+    <div class="wlist" id="wList"></div>
+  </div></div>
+</div>
+
+<div class="modal" id="delegateModal" role="dialog" aria-modal="true" aria-labelledby="dmTitle">
+  <div class="bezel"><div class="screen">
+    <button class="x" id="dmClose" aria-label="close">x</button>
+    <h3 id="dmTitle">delegate</h3>
+    <p id="dmSub" style="color:#7f93a8;font-size:15px;margin-bottom:16px"></p>
+    <div class="field"><label for="dmAmt">amount (SOL)</label><input id="dmAmt" type="number" min="0.01" step="0.01" value="10"></div>
+    <p id="dmEst" style="font-family:var(--mono);font-size:13px;color:#a6ffd9;margin:12px 0 16px"></p>
+    <button class="btn" id="dmGo" style="width:100%;justify-content:center">delegate SOL</button>
+  </div></div>
+</div>
+
+<div class="toast" id="toast" role="status"></div>
+<script src="https://cdn.jsdelivr.net/npm/@solana/web3.js@1.95.3/lib/index.iife.min.js"></script>
+<script src="/app.js"></script>
+</body>
+</html>
